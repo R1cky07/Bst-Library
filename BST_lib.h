@@ -1,18 +1,21 @@
 #include <iostream>
-
 using namespace std;
+#ifndef BST_LIB_H
+#define BST_LIB_H
 
-struct Node{				
+class Node{
+private:			
     int value, weight;		
     Node* lchild, *rchild;
-    Node(int num){
-        value = num;
-        weight = 1;
-        lchild = rchild = nullptr;
-    }
+public:
+	Node(int num);
+	Node* insertR(int N);
+	void inOrder();
 };
 
-Node* insert_recoursive(Node* r, int N){
+#endif
+
+/*Node* insert_recoursive(Node* r, int N){
     if(r == NULL){
         return new Node(N);
     }
@@ -228,4 +231,4 @@ int heightCalc(Node* r){
 	int left{heightCalc(r -> lchild)};
 	int right{heightCalc(r -> rchild)};
 	return max(right, left) + 1;
-}
+}*/
