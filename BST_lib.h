@@ -9,63 +9,17 @@ private:
     Node* lchild, *rchild;
 public:
 	Node(int num);
+	Node* insertI(int N);
 	Node* insertR(int N);
+	bool searchI(int k);
+	bool searchR(int k);
 	void inOrder();
 };
 
 #endif
 
-/*Node* insert_recoursive(Node* r, int N){
-    if(r == NULL){
-        return new Node(N);
-    }
-    if(r -> value == N){
-        r -> weight++;
-		return r;
-    }
-	
-    if(N > r -> value){
-        r -> rchild = insert_recoursive(r -> rchild, N);
-    }
-	
-    else{
-        r -> lchild = insert_recoursive(r -> lchild, N);
-    }
-    return r;
-}
+/*
 
-
-Node* insert_iterative(Node* r, int N){
-	Node* current{r};
-    Node* dad{nullptr};
-    bool isleft;
-    
-	while(current != nullptr){
-		
-		if(N == current -> value){
-			current -> weight++;
-			return r;
-		}
-		if(N > current -> value){
-			dad = current;
-			current = dad -> rchild;
-			isleft = false;
-		}
-		else{
-			dad = current;
-			current = dad -> lchild;
-			isleft = true;
-		}
-		
-	}
-	if(isleft){
-		dad -> lchild = new Node(N);
-	}
-	else{
-		dad -> rchild = new Node(N);
-	}
-    return r;
-}
 
 void preOrder(Node* r){
 	if(r == NULL){
