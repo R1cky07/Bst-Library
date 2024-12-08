@@ -1,107 +1,150 @@
 #include "BST_lib.h"
 
-Node::Node(int num)
+ostream& operator<<(ostream& os, const Node& N)
 {
-	value = num;
-	weight = 1;
-	lchild = rchild = nullptr;
-}
-
-Node* Node::insertI(int N){
-		Node* current{this};
-		Node* dad{nullptr};
-		bool isleft;
-		
-		while(current != nullptr){
-			
-			if(N == current -> value){
-				current -> weight++;
-				return this;
-			}
-			if(N > current -> value){
-				dad = current;
-				current = dad -> rchild;
-				isleft = false;
-			}
-			else{
-				dad = current;
-				current = dad -> lchild;
-				isleft = true;
-			}
-			
-		}
-		if(isleft){
-			dad -> lchild = new Node(N);
-		}
-		else{
-			dad -> rchild = new Node(N);
-		}
-		return this;
+    os << endl << endl << "Current Node -> " << N.value << endl << "weight -> " << N.weight << endl << endl;
+    if(N.lchild == NULL) {
+        os << "Left child is NULL" << endl << endl;
+    } else {
+        os << "Left child -> " << N.lchild->value << endl << "weight -> " << N.lchild->weight << endl << endl;
+    }
+    if(N.rchild == NULL) {
+        os << "Right child is NULL" << endl << endl;
+    } else {
+        os << "Right child -> " << N.rchild->value << endl << "weight -> " << N.rchild->weight << endl << endl;
+    }
+    return os;
 };
 
-Node* Node::insertR(int N){
-    if(this == nullptr){
-        return new Node(N);
+istream& operator>>(istream& is, Node& N)
+{
+    cout << "Value: ";
+    is >> N.value;
+    int Number;
+    cout << "Left child: ";
+    is >> Number;
+
+    if(Number == N.value) {
+        N.weight++;
+    } else {
+        N.lchild = new Node(Number);
     }
-    if(this -> value == N){
-        this -> weight++;
-		return this;
+
+    cout << "Right child: ";
+    is >> Number;
+    
+	if(Number == N.value) {
+        N.weight++;
+    } else if(N.lchild != NULL && Number == N.lchild->value) {
+        N.lchild->weight++;
+    } else {
+        N.rchild = new Node(Number);
     }
 	
-    if(N > this -> value){
-        this -> rchild = this -> rchild -> insertR(N);
+    return is;
+};
+
+Node::Node(int num)
+{
+    value = num;
+    weight = 1;
+    lchild = rchild = nullptr;
+}
+
+Node* Node::insertI(int N)
+{
+    Node* current{ this };
+    Node* dad{ nullptr };
+    bool isleft;
+
+    while(current != nullptr) {
+
+        if(N == current->value) {
+            current->weight++;
+            return this;
+        }
+        if(N > current->value) {
+            dad = current;
+            current = dad->rchild;
+            isleft = false;
+        } else {
+            dad = current;
+            current = dad->lchild;
+            isleft = true;
+        }
     }
-	
-    else{
-        this -> lchild = this -> lchild -> insertR(N);
+    if(isleft) {
+        dad->lchild = new Node(N);
+    } else {
+        dad->rchild = new Node(N);
     }
     return this;
 };
 
-bool Node::searchI(int N){
-	if(this == nullptr){
-		return false;
-	}
-	Node* current{this};
-	while(current != nullptr){
-		if(current -> value == N){
-			return true;
-		}
-		if(N > current->value){
-			current = current->rchild;
-		}
-		else{
-			current = current->lchild;
-		}
-	}
-	return false;
-};
-bool Node::searchR(int N){
-	bool check{false};
-	if(this == nullptr){
-		return false;
-	}
-	if(this -> value == N){
-		return true;
-	}
-	
-	if(N < this -> value && this -> lchild != nullptr){
-		check = this -> lchild -> searchR(N);
-	}
-	
-	else if(N > this -> value && this -> rchild != nullptr){
-		check = this -> rchild -> searchR(N);
-	}
-	return check;
+Node* Node::insertR(int N)
+{
+    if(this == nullptr) {
+        return new Node(N);
+    }
+    if(this->value == N) {
+        this->weight++;
+        return this;
+    }
+
+    if(N > this->value) {
+        this->rchild = this->rchild->insertR(N);
+    }
+
+    else {
+        this->lchild = this->lchild->insertR(N);
+    }
+    return this;
 };
 
-void Node::inOrder(){
-	if(this == nullptr){
-		return;
-	}
-	this -> lchild -> inOrder();
-	cout << this -> value << "  ";
-	this -> rchild -> inOrder();
+bool Node::searchI(int N)
+{
+    if(this == nullptr) {
+        return false;
+    }
+    Node* current{ this };
+    while(current != nullptr) {
+        if(current->value == N) {
+            return true;
+        }
+        if(N > current->value) {
+            current = current->rchild;
+        } else {
+            current = current->lchild;
+        }
+    }
+    return false;
+};
+bool Node::searchR(int N)
+{
+    bool check{ false };
+    if(this == nullptr) {
+        return false;
+    }
+    if(this->value == N) {
+        return true;
+    }
+
+    if(N < this->value && this->lchild != nullptr) {
+        check = this->lchild->searchR(N);
+    }
+
+    else if(N > this->value && this->rchild != nullptr) {
+        check = this->rchild->searchR(N);
+    }
+    return check;
 };
 
-
+void Node::inOrder()
+{
+    if(this == nullptr) {
+        return;
+    }
+    this->lchild->inOrder();
+    cout << this->value << "  ";
+    this->rchild->inOrder();
+};
