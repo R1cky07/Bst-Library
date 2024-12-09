@@ -20,15 +20,13 @@ istream& operator>>(istream& is, Node& N)
 {
     cout << "Value: ";
     is >> N.value;
-	N.lchild = nullptr;
-	N.rchild = nullptr;
-	
+    N.lchild = nullptr;
+    N.rchild = nullptr;
+
     return is;
 };
 
-Node::Node(){
-	weight = 1;
-};
+Node::Node() { weight = 1; };
 
 Node::Node(int num)
 {
@@ -105,6 +103,7 @@ bool Node::searchI(int N)
     }
     return false;
 };
+
 bool Node::searchR(int N)
 {
     bool check{ false };
@@ -125,6 +124,93 @@ bool Node::searchR(int N)
     return check;
 };
 
+Node* Node::deleteNode(int N)
+{
+    if(this == nullptr) {
+        cout << "The bst is empty" << endl;
+        return nullptr;
+    }
+    if(this -> searchR(N) == false) {
+        return nullptr;
+    }
+
+    Node* current{ this };
+    Node* dad{ nullptr };
+
+    while(current->value != N && current != nullptr) {
+        dad = current;
+
+        if(N < current->value) {
+            current = current->lchild;
+            continue;
+        }
+
+        if(N > current->value) {
+            current = current->rchild;
+            continue;
+        }
+    }
+    if(current->value == N) {
+
+        if(current->lchild == nullptr && current->rchild == nullptr) {
+            if(dad == nullptr) {
+                return nullptr;
+            } else if(dad->lchild == current) {
+                dad->lchild = nullptr;
+            } else {
+                dad->rchild = nullptr;
+            }
+        }
+
+        else if(current->lchild == nullptr) {
+            if(dad == nullptr) {
+                return current->rchild;
+            } else if(dad->lchild == current) {
+                dad->lchild = current->rchild;
+            } else {
+                dad->rchild = current->rchild;
+            }
+        }
+
+        else if(current->rchild == nullptr) {
+            if(dad == nullptr) {
+                return current->lchild;
+            } else if(dad->lchild == current) {
+                dad->lchild = current->lchild;
+            } else {
+                dad->rchild = current->lchild;
+            }
+        }
+
+        else {
+            Node* successor = current->rchild;
+            while(successor->lchild != nullptr) {
+                successor = successor->lchild;
+            }
+            current->value = successor->value;
+            current->rchild = current->rchild->deleteNode(successor->value);
+        }
+    }
+    return this;
+};
+
+bool Node::isBst()
+{
+    if(this == nullptr) {
+        return true;
+    }
+
+    if(this->lchild != nullptr && this->lchild->value > this->value) {
+        cout << "This is not a BST" << endl;
+        return false;
+    }
+    if(this->rchild != nullptr && this->rchild->value < this->value) {
+        cout << "This is not a BST" << endl;
+        return false;
+    }
+    return this -> lchild -> isBst() && this -> rchild -> isBst();
+};
+
 void Node::inOrder()
 {
     if(this == nullptr) {
@@ -133,4 +219,23 @@ void Node::inOrder()
     this->lchild->inOrder();
     cout << this->value << "  ";
     this->rchild->inOrder();
+};
+
+void Node::preOrder()
+{
+    if(this == nullptr) {
+        return;
+    }
+    cout << this->value << "  ";
+    this->lchild->inOrder();
+    this->rchild->inOrder();
+};
+void Node::postOrder()
+{
+    if(this == nullptr) {
+        return;
+    }
+    this->lchild->inOrder();
+    this->rchild->inOrder();
+    cout << this->value << "  ";
 };

@@ -16,43 +16,18 @@ public:
     Node(int num);
     Node* insertI(int N);
     Node* insertR(int N);
-    bool searchI(int k);
-    bool searchR(int k);
+    bool searchI(int N);
+    bool searchR(int N);
+	Node* deleteNode(int N);
+	bool isBst();
     void inOrder();
+	void preOrder();
+	void postOrder();
 };
 
 #endif
 
 /*
-
-
-void preOrder(Node* r){
-    if(r == NULL){
-        return;
-    }
-    cout << r -> value << "  ";
-    preOrder(r -> lchild);
-    preOrder(r -> rchild);
-}
-
-void inOrder(Node* r){
-    if(r == NULL){
-        return;
-    }
-    inOrder(r -> lchild);
-    cout << r -> value << "  ";
-    inOrder(r -> rchild);
-}
-
-void postOrder(Node* r){
-    if(r == NULL){
-        return;
-    }
-    postOrder(r -> lchild);
-    postOrder(r -> rchild);
-    cout << r -> value << "  ";
-}
-
 
 
 Node* EraseNode(Node* r, int N){
