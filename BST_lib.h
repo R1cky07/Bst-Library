@@ -12,6 +12,7 @@ private:
     friend istream& operator>>(istream& is, Node& N);
 
 public:
+	Node();
     Node(int num);
     Node* insertI(int N);
     Node* insertR(int N);

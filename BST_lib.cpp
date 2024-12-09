@@ -20,28 +20,14 @@ istream& operator>>(istream& is, Node& N)
 {
     cout << "Value: ";
     is >> N.value;
-    int Number;
-    cout << "Left child: ";
-    is >> Number;
-
-    if(Number == N.value) {
-        N.weight++;
-    } else {
-        N.lchild = new Node(Number);
-    }
-
-    cout << "Right child: ";
-    is >> Number;
-    
-	if(Number == N.value) {
-        N.weight++;
-    } else if(N.lchild != NULL && Number == N.lchild->value) {
-        N.lchild->weight++;
-    } else {
-        N.rchild = new Node(Number);
-    }
+	N.lchild = nullptr;
+	N.rchild = nullptr;
 	
     return is;
+};
+
+Node::Node(){
+	weight = 1;
 };
 
 Node::Node(int num)
