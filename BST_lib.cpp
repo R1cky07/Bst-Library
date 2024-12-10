@@ -21,6 +21,7 @@ istream& operator>>(istream& is, Node& N)
     cout << "Value: ";
     is >> N.value;
     N.lchild = nullptr;
+	
     N.rchild = nullptr;
 
     return is;
